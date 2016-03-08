@@ -183,6 +183,19 @@
 		},
 	    },
 	},
+	'debian_tryton_org': {
+	    'repositories': {
+		'default': 'http://debian.tryton.org',
+	    },
+	    'components': [ 'main' ],
+	    'debootstrap_options': '--include=debian.tryton.org-archive --no-check-gpg',
+	    'cdebootstrap_options': '--include=debian.tryton.org-archive --allow-unauthenticated --suite-config=wheezy-3.8',
+	    'dists': {
+		'wheezy-3.8': {
+		    'parent': 'wheezy-backports',
+			},
+	  },
+	},
 	'ubuntu': {
 	    'repositories': {
 		'default': 'http://archive.ubuntu.com/ubuntu',
