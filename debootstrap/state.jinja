@@ -1,6 +1,6 @@
 {% from 'debootstrap/vendor_data.jinja' import vendor_data %}
 
-{% set debootstrap_impl = salt['pillar.get']('debootstrap:implementation', 'cdebootstrap') %}
+{% set debootstrap_impl = salt['pillar.get']('debootstrap:implementation', 'debootstrap') %}
 {% set basedir = salt['pillar.get']('debootstrap:basedir', '/srv/chroots') %}
 
 {# Try to identify the vendor of a given distribution #}
@@ -17,6 +17,15 @@
 {# Retrieve debootstrap options for the selected debootstrap implementation #}
 {%- macro debootstrap_options(input) -%}
 {{ input.get(debootstrap_impl + '_options', '') }}
+{%- endmacro -%}
+
+{# Retrieve debootstrap script parameter (specific to debootstrap) #}
+{%- macro debootstrap_script(input, input2, input3) -%}
+{%- if debootstrap_impl == 'debootstrap' -%}
+{{ input3.get('debootstrap_script',
+     input2.get('debootstrap_script',
+       input.get('debootstrap_script', ''))) }}
+{%- endif -%}
 {%- endmacro -%}
 
 {# Retrieve the archive URL of a given distribution #}
@@ -87,6 +96,7 @@
     codename,
     data.directory,
     repository_url(data.vendor, data.dist),
+    debootstrap_script(vendor_data[data.vendor], dist_data, data)
 ]) }}
 {%- endmacro %}
 
@@ -96,8 +106,7 @@ debootstrap_{{ data.id }}:
   cmd.run:
     - name: {{ debootstrap_cmdline(data) }} || (rm -rf {{ data.directory }}; exit 1)
     - unless: test -d {{ data.directory }}
-    - user: root
-    - group: root
+    - runas: root
     - require:
       - sls: {{ sls_require }}
 
