@@ -38,7 +38,7 @@
 		'bullseye-security': {
 		    'parent': 'bullseye',
 		    'repository': 'security',
-		    'apt_codename': 'bullseye/updates',
+		    'apt_codename': 'bullseye-security',
 		},
 		'bullseye-updates': {
 		   'parent': 'bullseye',
@@ -98,21 +98,17 @@
 		    'repository': 'archive',
 		},
 		'wheezy-backports': {
+		    'repository': 'archive',
 		    'parent': 'wheezy',
 		},
 		'wheezy-backports-sloppy': {
-		    'parent': 'wheezy',
-		},
-		'wheezy-proposed-updates': {
+		    'repository': 'archive',
 		    'parent': 'wheezy',
 		},
 		'wheezy-security': {
+		    'repository': 'archive-security',
 		    'parent': 'wheezy',
-		    'repository': 'security',
 		    'apt_codename': 'wheezy/updates',
-		},
-		'wheezy-updates': {
-		    'parent': 'wheezy',
 		},
 		'squeeze': {
 		    'repository': 'archive',
